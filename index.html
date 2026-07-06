@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1F3D2B">
+  <title>KikeOps 3.0</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F2F1E8;
+      color: #1C1C1A;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: linear-gradient(to right, #1F3D2B, #2D6B78);
+      color: white;
+      padding: 2rem 1rem;
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 1rem;
+    }
+
+    .header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .header p {
+      font-size: 11px;
+      opacity: 0.7;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .call-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .call-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .content {
+      flex: 1;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .stat-card p {
+      font-size: 11px;
+      color: #3C3C3C;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .number {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .stat-green { color: #22c55e; }
+    .stat-dark { color: #1F3D2B; }
+    .stat-orange { color: #ea580c; }
+
+    .section-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      color: #6B6B63;
+      margin-bottom: 12px;
+      padding: 0 8px;
+      text-transform: uppercase;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .menu-item {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    .menu-item:hover {
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .menu-item-text {
+      font-size: 12px;
+      font-weight: bold;
+      color: #1C1C1A;
+      line-height: 1.3;
+    }
+
+    .footer {
+      padding: 1.5rem 1rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .footer p {
+      font-size: 11px;
+      color: #6B6B63;
+      margin-bottom: 8px;
+    }
+
+    .footer small {
+      font-size: 10px;
+      color: #B8B6AA;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .back-header {
+      background: #1F3D2B;
+      color: white;
+      padding: 1.25rem 1rem 1.5rem 1rem;
+      border-radius: 0 0 24px 24px;
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 255, 255, 0.85);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 1rem;
+      font-family: inherit;
+    }
+
+    .back-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .detail-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .detail-emoji {
+      font-size: 48px;
+      margin-bottom: 1rem;
+    }
+
+    .detail-content h3 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1C1C1A;
+      margin-bottom: 8px;
+    }
+
+    .detail-content p {
+      font-size: 13px;
+      color: #3C3C3C;
+    }
+
+    /* Colores por grupo */
+    .color-operacion { background: #1F3D2B20; color: #1F3D2B; }
+    .color-finanzas { background: #9A6A1E20; color: #9A6A1E; }
+    .color-recursos { background: #6B422620; color: #6B4226; }
+    .color-clientes { background: #2D6B7820; color: #2D6B78; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- PANTALLA PRINCIPAL -->
+    <div id="mainScreen" class="screen active">
+      <div class="header">
+        <p>Kike's Landscaping</p>
+        <h1>KikeOps 3.0</h1>
+        <a href="tel:3526578299" class="call-button">
+          <i class="fas fa-phone"></i> Llamar ahora
+        </a>
+      </div>
+
+      <div class="content">
+        <!-- Stats -->
+        <div class="stats">
+          <div class="stat-card">
+            <p>Ganancia hoy</p>
+            <div class="number stat-green">$135</div>
+          </div>
+          <div class="stat-card">
+            <p>Trabajos hoy</p>
+            <div class="number stat-dark">4</div>
+          </div>
+          <div class="stat-card">
+            <p>Por cobrar</p>
+            <div class="number stat-orange">$570</div>
+          </div>
+        </div>
+
+        <!-- Operación -->
+        <div class="section-group">
+          <div class="section-title">Operación</div>
+          <div class="menu-grid">
+            <button class="menu-item" onclick="showDetail('Trabajos de Hoy')">
+              <div class="menu-icon color-operacion"><i class="fas fa-briefcase"></i></div>
+              <div class="menu-item-text">Trabajos de Hoy</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Programación')">
+              <div class="menu-icon color-operacion"><i class="fas fa-calendar"></i></div>
+              <div class="menu-item-text">Programación</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Estimados')">
+              <div class="menu-icon color-operacion"><i class="fas fa-file-alt"></i></div>
+              <div class="menu-item-text">Estimados</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Flujo de Caja')">
+              <div class="menu-icon color-operacion"><i class="fas fa-wallet"></i></div>
+              <div class="menu-item-text">Flujo de Caja (Fin)</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Finanzas -->
+        <div class="section-group">
+          <div class="section-title">Finanzas</div>
+          <div class="menu-grid">
+            <button class="menu-item" onclick="showDetail('Facturas y Cobros')">
+              <div class="menu-icon color-finanzas"><i class="fas fa-file-invoice-dollar"></i></div>
+              <div class="menu-item-text">Facturas y Cobros</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Rentabilidad')">
+              <div class="menu-icon color-finanzas"><i class="fas fa-chart-line"></i></div>
+              <div class="menu-item-text">Rentabilidad</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recursos -->
+        <div class="section-group">
+          <div class="section-title">Recursos</div>
+          <div class="menu-grid">
+            <button class="menu-item" onclick="showDetail('Proveedores y Precios')">
+              <div class="menu-icon color-recursos"><i class="fas fa-shopping-cart"></i></div>
+              <div class="menu-item-text">Proveedores</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Combustible y Equipos')">
+              <div class="menu-icon color-recursos"><i class="fas fa-gas-pump"></i></div>
+              <div class="menu-item-text">Combustible</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Empleados y Horas')">
+              <div class="menu-icon color-recursos"><i class="fas fa-users"></i></div>
+              <div class="menu-item-text">Empleados</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Clientes -->
+        <div class="section-group">
+          <div class="section-title">Clientes</div>
+          <div class="menu-grid">
+            <button class="menu-item" onclick="showDetail('Clientes y Propiedades')">
+              <div class="menu-icon color-clientes"><i class="fas fa-users"></i></div>
+              <div class="menu-item-text">Clientes</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('Reseñas y Recordatorios')">
+              <div class="menu-icon color-clientes"><i class="fas fa-star"></i></div>
+              <div class="menu-item-text">Reseñas</div>
+            </button>
+            <button class="menu-item" onclick="showDetail('KikeBot (IA)')">
+              <div class="menu-icon color-clientes"><i class="fas fa-comments"></i></div>
+              <div class="menu-item-text">KikeBot IA</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>✨ Construido con ❤️ para tu negocio</p>
+        <small>KikeOps 3.0 • Powered by Claude AI</small>
+      </div>
+    </div>
+
+    <!-- PANTALLA DE DETALLE -->
+    <div id="detailScreen" class="screen">
+      <div class="back-header">
+        <button class="back-button" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i> Volver
+        </button>
+        <h2 id="detailTitle">Título</h2>
+      </div>
+      <div class="detail-content">
+        <div class="detail-emoji">🚀</div>
+        <h3 id="detailName">Sección</h3>
+        <p>Esta sección está integrada y lista.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showDetail(title) {
+      document.getElementById('mainScreen').classList.remove('active');
+      document.getElementById('detailScreen').classList.add('active');
+      document.getElementById('detailTitle').textContent = title;
+      document.getElementById('detailName').textContent = title;
+    }
+
+    function goBack() {
+      document.getElementById('detailScreen').classList.remove('active');
+      document.getElementById('mainScreen').classList.add('active');
+    }
+  </script>
+</body>
+</html>
